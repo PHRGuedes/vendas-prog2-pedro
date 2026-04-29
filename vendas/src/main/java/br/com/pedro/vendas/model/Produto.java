@@ -6,10 +6,11 @@ public class Produto {
 
     private int id;
     private String nome;
-    private double preco_medio;
-    private double qtde_estoque;
-    private double valor_ultima_compra;
-    private double valor_ultima_venda;
+    private double preco;   
+    private double precoMedio;
+    private int qtdeEstoque;
+    private double valorUltimaCompra;
+    private double valorUltimaVenda;
     private Categoria categoria;
     private List<Fornecedor> fornecedores;
     private List<Venda> vendas;
@@ -30,36 +31,44 @@ public class Produto {
         this.nome = nome;
     }
 
-    public double getPreco_medio() {
-        return preco_medio;
+    public double getPreco() {
+        return preco;
     }
 
-    public void setPreco_medio(double preco_medio) {
-        this.preco_medio = preco_medio;
+    public void setPreco(double preco) {
+        this.preco = preco;
     }
 
-    public double getQtde_estoque() {
-        return qtde_estoque;
+    public double getPrecoMedio() {
+        return precoMedio;
     }
 
-    public void setQtde_estoque(double qtde_estoque) {
-        this.qtde_estoque = qtde_estoque;
+    public void setPrecoMedio(double precoMedio) {
+        this.precoMedio = precoMedio;
     }
 
-    public double getValor_ultima_compra() {
-        return valor_ultima_compra;
+    public int getQtdeEstoque() {
+        return qtdeEstoque;
     }
 
-    public void setValor_ultima_compra(double valor_ultima_compra) {
-        this.valor_ultima_compra = valor_ultima_compra;
+    public void setQtdeEstoque(int qtdeEstoque) {
+        this.qtdeEstoque = qtdeEstoque;
     }
 
-    public double getValor_ultima_venda() {
-        return valor_ultima_venda;
+    public double getValorUltimaCompra() {
+        return valorUltimaCompra;
     }
 
-    public void setValor_ultima_venda(double valor_ultima_venda) {
-        this.valor_ultima_venda = valor_ultima_venda;
+    public void setValorUltimaCompra(double valorUltimaCompra) {
+        this.valorUltimaCompra = valorUltimaCompra;
+    }
+
+    public double getValorUltimaVenda() {
+        return valorUltimaVenda;
+    }
+
+    public void setValorUltimaVenda(double valorUltimaVenda) {
+        this.valorUltimaVenda = valorUltimaVenda;
     }
 
     public Categoria getCategoria() {
@@ -88,14 +97,14 @@ public class Produto {
     public Produto() {
     }
 
-    public Produto(int id, String nome, double preco_medio, double qtde_estoque, double valor_ultima_compra, double valor_ultima_venda, Categoria categoria, List<Fornecedor> fornecedores, List<Venda> vendas) {
+    public Produto(int id, String nome, double precoMedio, int qtdeEstoque, double valorUltimaCompra, double valorUltimaVenda, Categoria categoria, List<Fornecedor> fornecedores, List<Venda> vendas) {
 
         this.id = id;
         this.nome = nome;
-        this.preco_medio = preco_medio;
-        this.qtde_estoque = qtde_estoque;
-        this.valor_ultima_compra = valor_ultima_compra;
-        this.valor_ultima_venda = valor_ultima_venda;
+        this.precoMedio = precoMedio;
+        this.qtdeEstoque = qtdeEstoque;
+        this.valorUltimaCompra = valorUltimaCompra;
+        this.valorUltimaVenda = valorUltimaVenda;
         this.categoria = categoria;
         this.fornecedores = fornecedores;
         this.vendas = vendas;

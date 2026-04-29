@@ -3,17 +3,17 @@ package br.com.pedro.vendas.model;
 public class Fornecedor {
 
     private int id;
-    private String nome_fantasia;
-    private String razao_social;
+    private String nomeFantasia;
+    private String razaoSocial;
     private String cnpj;
 
     public Fornecedor() {
     }
 
-    public Fornecedor(int id, String nome_fantasia, String razao_social, String cnpj) {
+    public Fornecedor(int id, String nomeFantasia, String razaoSocial, String cnpj) {
         this.id = id;
-        this.nome_fantasia = nome_fantasia;
-        this.razao_social = razao_social;
+        this.nomeFantasia = nomeFantasia;
+        this.razaoSocial = razaoSocial;
         this.cnpj = cnpj;
     }
 
@@ -25,20 +25,20 @@ public class Fornecedor {
         this.id = id;
     }
 
-    public String getNome_fantasia() {
-        return nome_fantasia;
+    public String getNomeFantasia() {
+        return nomeFantasia;
     }
 
-    public void setNome_fantasia(String nome_fantasia) {
-        this.nome_fantasia = nome_fantasia;
+    public void setNomeFantasia(String nomeFantasia) {
+        this.nomeFantasia = nomeFantasia;
     }
 
-    public String getRazao_social() {
-        return razao_social;
+    public String getRazaoSocial() {
+        return razaoSocial;
     }
 
-    public void setRazao_social(String razao_social) {
-        this.razao_social = razao_social;
+    public void setRazaoSocial(String razaoSocial) {
+        this.razaoSocial = razaoSocial;
     }
 
     public String getCnpj() {
