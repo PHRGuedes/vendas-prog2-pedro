@@ -15,24 +15,29 @@ public class ProdutoRepository {
 
     public void salvar(Produto produto) {
 
-        String sql = "INSERT INTO produto (nome, preco, qtdeEstoque, categoriaId) VALUES (?, ?, ?, ?)";
-
-        try (Connection con = ConnectionFactory.getConnection();
-             PreparedStatement stmt = con.prepareStatement(sql)) {
-
-            stmt.setString(1, produto.getNome());
-            stmt.setDouble(2, produto.getPreco());
-            stmt.setInt(3, produto.getQtdeEstoque());
-            stmt.setInt(4, produto.getCategoria().getId());
-
-            stmt.execute();
-
-            System.out.println("Produto salvo!");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    if (produto.getCategoria() == null || produto.getCategoria().getId() == 0) {
+        System.out.println("Produto precisa ter categoria!");
+        return;
     }
+
+    String sql = "INSERT INTO produto (nome, preco, qtdeEstoque, categoriaId) VALUES (?, ?, ?, ?)";
+
+    try (Connection con = ConnectionFactory.getConnection();
+         PreparedStatement stmt = con.prepareStatement(sql)) {
+
+        stmt.setString(1, produto.getNome());
+        stmt.setDouble(2, produto.getPreco());
+        stmt.setInt(3, produto.getQtdeEstoque());
+        stmt.setInt(4, produto.getCategoria().getId());
+
+        stmt.executeUpdate();
+
+        System.out.println("Produto salvo!");
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
     
     public List<Produto> buscarTodos() {
 
@@ -51,6 +56,10 @@ public class ProdutoRepository {
                 p.setNome(rs.getString("nome"));
                 p.setPreco(rs.getDouble("preco"));
                 p.setQtdeEstoque(rs.getInt("qtdeEstoque"));
+                p.setPrecoMedio(rs.getDouble("precoMedio"));
+                p.setValorUltimaCompra(rs.getDouble("valorUltimaCompra"));
+                p.setValorUltimaVenda(rs.getDouble("valorUltimaVenda"));
+                p.setQuantidadeCompras(rs.getInt("quantidadeCompras"));
 
                 // categoria
                 Categoria c = new Categoria();
@@ -69,7 +78,7 @@ public class ProdutoRepository {
 
     public void atualizar(Produto produto) {
 
-        String sql = "UPDATE produto SET nome = ?, preco = ?, qtdeEstoque = ?, categoriaId = ? WHERE id = ?";
+        String sql = "UPDATE produto SET nome = ?, preco = ?, qtdeEstoque = ?, precoMedio = ?, valorUltimaCompra = ?, valorUltimaVenda = ?, quantidadeCompras = ?, categoriaId = ? WHERE id = ?";
 
         try (Connection con = ConnectionFactory.getConnection();
              PreparedStatement stmt = con.prepareStatement(sql)) {
@@ -77,8 +86,14 @@ public class ProdutoRepository {
             stmt.setString(1, produto.getNome());
             stmt.setDouble(2, produto.getPreco());
             stmt.setInt(3, produto.getQtdeEstoque());
-            stmt.setInt(4, produto.getCategoria().getId());
-            stmt.setInt(5, produto.getId());
+
+            stmt.setDouble(4, produto.getPrecoMedio());
+            stmt.setDouble(5, produto.getValorUltimaCompra());
+            stmt.setDouble(6, produto.getValorUltimaVenda());
+            stmt.setInt(7, produto.getQuantidadeCompras());
+
+            stmt.setInt(8, produto.getCategoria().getId());
+            stmt.setInt(9, produto.getId());
 
             stmt.executeUpdate();
 

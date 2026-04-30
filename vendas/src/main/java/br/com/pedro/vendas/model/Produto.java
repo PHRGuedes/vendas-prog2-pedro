@@ -12,8 +12,26 @@ public class Produto {
     private double valorUltimaCompra;
     private double valorUltimaVenda;
     private Categoria categoria;
+    private int quantidadeCompras;
     private List<Fornecedor> fornecedores;
     private List<Venda> vendas;
+
+    public Produto() {
+    }
+
+    public Produto(int id, String nome, double precoMedio, int qtdeEstoque, double valorUltimaCompra, double valorUltimaVenda, Categoria categoria, List<Fornecedor> fornecedores, List<Venda> vendas) {
+
+        this.id = id;
+        this.nome = nome;
+        this.precoMedio = precoMedio;
+        this.qtdeEstoque = qtdeEstoque;
+        this.valorUltimaCompra = valorUltimaCompra;
+        this.valorUltimaVenda = valorUltimaVenda;
+        this.categoria = categoria;
+        this.fornecedores = fornecedores;
+        this.vendas = vendas;
+
+    }
 
     public int getId() {
         return id;
@@ -94,23 +112,14 @@ public class Produto {
     public void setVendas(List<Venda> vendas) {
         this.vendas = vendas;
     }
-    public Produto() {
+
+    public int getQuantidadeCompras() {
+        return quantidadeCompras;
     }
 
-    public Produto(int id, String nome, double precoMedio, int qtdeEstoque, double valorUltimaCompra, double valorUltimaVenda, Categoria categoria, List<Fornecedor> fornecedores, List<Venda> vendas) {
-
-        this.id = id;
-        this.nome = nome;
-        this.precoMedio = precoMedio;
-        this.qtdeEstoque = qtdeEstoque;
-        this.valorUltimaCompra = valorUltimaCompra;
-        this.valorUltimaVenda = valorUltimaVenda;
-        this.categoria = categoria;
-        this.fornecedores = fornecedores;
-        this.vendas = vendas;
-
+    public void setQuantidadeCompras(int quantidadeCompras) {
+        this.quantidadeCompras = quantidadeCompras;
     }
-
 
 }
 

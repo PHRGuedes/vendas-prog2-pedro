@@ -7,8 +7,8 @@ import java.time.LocalDate;
 public class Venda {
 
     public int id;
-    public LocalDate data_venda;
-    public double valor_total;
+    public LocalDate dataVenda;
+    public double valorTotal;
     private Cliente cliente;
     private List<Produto> produtos;
 
@@ -16,10 +16,10 @@ public class Venda {
     this.produtos = new ArrayList<>();
 }
 
-    public Venda(int id, LocalDate data_venda, double valor_total, Cliente cliente, List<Produto> produtos) {
+    public Venda(int id, LocalDate dataVenda, double valorTotal, Cliente cliente, List<Produto> produtos) {
         this.id = id;
-        this.data_venda = data_venda;
-        this.valor_total = valor_total;
+        this.dataVenda = dataVenda;
+        this.valorTotal = valorTotal;
         this.cliente = cliente;
         this.produtos = produtos != null ? new ArrayList<>(produtos) : new ArrayList<>();
     }
@@ -32,20 +32,20 @@ public class Venda {
         this.id = id;
     }
 
-    public LocalDate getData_venda() {
-        return data_venda;
+    public LocalDate getDataVenda() {
+        return dataVenda;
     }
 
-    public void setData_venda(LocalDate data_venda) {
-        this.data_venda = data_venda;
+    public void setDataVenda(LocalDate dataVenda) {
+        this.dataVenda = dataVenda;
     }
 
-    public double getValor_total() {
-        return valor_total;
+    public double getValorTotal() {
+        return valorTotal;
     }
 
-    public void setValor_total(double valor_total) {
-        this.valor_total = valor_total;
+    public void setValorTotal(double valorTotal) {
+        this.valorTotal = valorTotal;
     }
 
     public Cliente getCliente() {
