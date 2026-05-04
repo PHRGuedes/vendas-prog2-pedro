@@ -3,6 +3,7 @@ package br.com.pedro.vendas.repository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -81,15 +82,50 @@ public class CategoriaRepository {
         String sql = "DELETE FROM categoria WHERE id = ?";
 
         try (Connection con = ConnectionFactory.getConnection();
+            PreparedStatement stmt = con.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+
+            int linhas = stmt.executeUpdate(); // 🔥 valida aqui
+
+            if (linhas > 0) {
+                System.out.println("Categoria deletada!");
+            } else {
+                System.out.println("Categoria não encontrada!");
+            }
+
+        } 
+        catch (SQLIntegrityConstraintViolationException e) {
+
+            System.out.println("Não pode deletar pois está vinculado a produtos.");
+ } 
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    // 🔹 BUSCAR POR ID
+    public Categoria buscarPorId(int id) {
+
+        String sql = "SELECT * FROM categoria WHERE id = ?";
+
+        try (Connection con = ConnectionFactory.getConnection();
              PreparedStatement stmt = con.prepareStatement(sql)) {
 
             stmt.setInt(1, id);
-            stmt.executeUpdate();
 
-            System.out.println("Categoria deletada!");
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    Categoria c = new Categoria();
+                    c.setId(rs.getInt("id"));
+                    c.setNome(rs.getString("nome"));
 
+                    return c;
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        return null;
     }
 }

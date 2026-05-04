@@ -3,6 +3,7 @@ package br.com.pedro.vendas.repository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -117,11 +118,53 @@ public class ProdutoRepository {
 
             System.out.println("Produto deletado!");
 
-        } catch (Exception e) {
+        } 
+
+        catch (SQLIntegrityConstraintViolationException e) {
+        System.out.println("Não pode deletar pois está vinculado a produtos.");
+        } 
+        
+        catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    // 🔹 BUSCAR POR ID
+    public Produto buscarPorId(int id) {
+
+        String sql = "SELECT * FROM produto WHERE id = ?";
+
+        try (Connection con = ConnectionFactory.getConnection();
+             PreparedStatement stmt = con.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    Produto p = new Produto();
+                    p.setId(rs.getInt("id"));
+                    p.setNome(rs.getString("nome"));
+                    p.setPreco(rs.getDouble("preco"));
+                    p.setQtdeEstoque(rs.getInt("qtdeEstoque"));
+                    p.setPrecoMedio(rs.getDouble("precoMedio"));
+                    p.setValorUltimaCompra(rs.getDouble("valorUltimaCompra"));
+                    p.setValorUltimaVenda(rs.getDouble("valorUltimaVenda"));
+                    p.setQuantidadeCompras(rs.getInt("quantidadeCompras"));
+
+                    // categoria
+                    Categoria c = new Categoria();
+                    c.setId(rs.getInt("categoriaId"));
+                    p.setCategoria(c);
+
+                    return p;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }
 
 

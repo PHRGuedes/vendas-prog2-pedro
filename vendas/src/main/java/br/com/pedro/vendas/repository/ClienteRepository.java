@@ -3,6 +3,7 @@ package br.com.pedro.vendas.repository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -101,8 +102,75 @@ public class ClienteRepository {
 
             System.out.println("Cliente deletado!");
 
-        } catch (Exception e) {
+        } 
+        
+        catch (SQLIntegrityConstraintViolationException e) {
+        System.out.println("Não pode deletar pois está vinculado a produtos.");
+        } 
+        
+        catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+    // 🔹 BUSCAR POR ID
+    public Cliente buscarPorId(int id) {
+
+        String sql = "SELECT * FROM cliente WHERE id = ?";
+
+        try (Connection con = ConnectionFactory.getConnection();
+             PreparedStatement stmt = con.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    Cliente c = new Cliente();
+                    c.setId(rs.getInt("id"));
+                    c.setNome(rs.getString("nome"));
+                    c.setCpf(rs.getString("cpf"));
+                    c.setRg(rs.getString("rg"));
+                    c.setEndereco(rs.getString("endereco"));
+                    c.setTelefone(rs.getString("telefone"));
+
+                    return c;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    // BUSCAR POR CPF
+    public Cliente buscarPorCpf(String cpf) {
+
+        String sql = "SELECT * FROM cliente WHERE cpf = ?";
+
+        try (Connection con = ConnectionFactory.getConnection();
+             PreparedStatement stmt = con.prepareStatement(sql)) {
+
+            stmt.setString(1, cpf);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    Cliente c = new Cliente();
+                    c.setId(rs.getInt("id"));
+                    c.setNome(rs.getString("nome"));
+                    c.setCpf(rs.getString("cpf"));
+                    c.setRg(rs.getString("rg"));
+                    c.setEndereco(rs.getString("endereco"));
+                    c.setTelefone(rs.getString("telefone"));
+
+                    return c;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
 }

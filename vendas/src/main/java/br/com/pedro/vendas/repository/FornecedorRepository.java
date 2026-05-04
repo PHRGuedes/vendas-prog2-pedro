@@ -3,6 +3,7 @@ package br.com.pedro.vendas.repository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -88,15 +89,52 @@ public class FornecedorRepository {
         String sql = "DELETE FROM fornecedor WHERE id = ?";
 
         try (Connection con = ConnectionFactory.getConnection();
-             PreparedStatement stmt = con.prepareStatement(sql)) {
+            PreparedStatement stmt = con.prepareStatement(sql)) {
 
             stmt.setInt(1, id);
-            stmt.executeUpdate();
 
-            System.out.println("Fornecedor deletado!");
+            int linhas = stmt.executeUpdate(); // 🔥 valida aqui
+
+            if (linhas > 0) {
+                System.out.println("Fornecedor deletado com sucesso!");
+            } else {
+                System.out.println("Fornecedor não encontrado!");
+            }
+
+        } catch (SQLIntegrityConstraintViolationException e) {
+
+            System.out.println("Não é possível deletar este fornecedor pois ele está vinculado a compras cadastradas.");
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    // 🔹 BUSCAR POR ID
+    public Fornecedor buscarPorId(int id) {
+
+        String sql = "SELECT * FROM fornecedor WHERE id = ?";
+
+        try (Connection con = ConnectionFactory.getConnection();
+             PreparedStatement stmt = con.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    Fornecedor f = new Fornecedor();
+                    f.setId(rs.getInt("id"));
+                    f.setNomeFantasia(rs.getString("nomeFantasia"));
+                    f.setRazaoSocial(rs.getString("razaoSocial"));
+                    f.setCnpj(rs.getString("cnpj"));
+
+                    return f;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }

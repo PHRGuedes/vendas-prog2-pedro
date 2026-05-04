@@ -8,24 +8,27 @@
 
 package br.com.pedro.vendas.service;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
+import br.com.pedro.vendas.model.Fornecedor;
 import br.com.pedro.vendas.model.Produto;
 import br.com.pedro.vendas.repository.ProdutoRepository;
 
 public class CompraService {
 
-    public void realizarCompra(List<Produto> produtos) {
+    public void realizarCompra(List<Produto> produtos, Map<Integer, Integer> quantidades, LocalDate data, Fornecedor fornecedor) {
 
         ProdutoRepository produtoRepository = new ProdutoRepository();
 
         for (Produto produto : produtos) {
 
-            // aumentar estoque
-            int novoEstoque = produto.getQtdeEstoque() + 1;
+            int quantidade = quantidades.get(produto.getId());
+
+            int novoEstoque = produto.getQtdeEstoque() + quantidade;
             produto.setQtdeEstoque(novoEstoque);
 
-            // media 
             int qtd = produto.getQuantidadeCompras();
             double precoCompra = produto.getPreco();
 
