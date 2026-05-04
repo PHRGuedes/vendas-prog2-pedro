@@ -103,6 +103,7 @@ public class CategoriaRepository {
             e.printStackTrace();
         }
     }
+  
     // 🔹 BUSCAR POR ID
     public Categoria buscarPorId(int id) {
 
