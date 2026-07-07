@@ -1,30 +1,39 @@
 package venda.p2.dao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import io.github.cdimascio.dotenv.Dotenv;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Conexao {
-    private static final String URL = "jdbc:postgresql://localhost:5432/SEUBANCO";
-    private static final String USUARIO = "postgres";
-    private static final String SENHA = "1234";
+    private static EntityManagerFactory emf;
 
-    private static Connection connection;
+    private static EntityManagerFactory getEntityManagerFactory() {
+        if (emf == null) {
+            // Carrega variáveis do arquivo .env
+            Dotenv dotenv = Dotenv.configure().ignoreIfMissing().load();
+            
+            Map<String, String> properties = new HashMap<>();
+            properties.put("jakarta.persistence.jdbc.url", dotenv.get("DB_URL"));
+            properties.put("jakarta.persistence.jdbc.user", dotenv.get("DB_USER"));
+            properties.put("jakarta.persistence.jdbc.password", dotenv.get("DB_PASSWORD"));
 
-    public static Connection getConnection() throws SQLException {
-        if (connection == null || connection.isClosed()) {
-            connection = DriverManager.getConnection(URL, USUARIO, SENHA);
+            // Cria o factory com as propriedades lidas
+            emf = Persistence.createEntityManagerFactory("siscom", properties);
         }
-        return connection;
+        return emf;
+    }
+
+    public static EntityManager getEntityManager() {
+        return getEntityManagerFactory().createEntityManager();
     }
 
     public static void fecharConexao() {
-        if (connection != null) {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+        if (emf != null && emf.isOpen()) {
+            emf.close();
         }
     }
 }
